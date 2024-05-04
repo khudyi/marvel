@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { Spinner } from '../spinner/Spinner';
 import { ErrorMessage } from '../errorMessage/ErrorMessage';
 import { MarvelService } from '../../services/MarvelService';
@@ -56,6 +56,21 @@ export class CharList extends Component {
         });
     }
 
+    refsOfChars = [];
+
+    allRefs = (ref) => {
+        this.refsOfChars.push(ref);
+    }
+
+    focusOnItem = (id) => {
+        this.refsOfChars.forEach((item) => {
+            item.classList.remove('char__item_selected');
+        });
+
+        this.refsOfChars[id].classList.add('char__item_selected');
+        this.refsOfChars[id].focus();
+    }
+
     renderItems = (arr) => {
         const items = arr.map((item, index) => {
             let imgStyle = {'objectFit': 'cover'};
@@ -66,8 +81,18 @@ export class CharList extends Component {
 
             return (
                 <li className='char__item'
+                tabIndex={0}
                     key={index}
-                    onClick={() => this.props.onCharSelected(item.id)}>
+                    ref={this.allRefs}
+                    onClick={() => {this.props.onCharSelected(item.id); 
+                                    this.focusOnItem(index)
+                                }}
+                    onKeyPress={(e) => {
+                        if (e.key === ' ' || e.key === 'Enter') {
+                            this.props.onCharSelected(item.id);
+                            this.focusOnItem(index);
+                        }
+                    }}>
                         <img src={item.thumbnail} alt={item.name} style={imgStyle}/>
                         <div className='char__name'>
                             {item.name}
