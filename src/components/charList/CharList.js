@@ -34,7 +34,7 @@ export const CharList = (props) => {
         setCharList((charList) => [...charList, ...newCharList]);
         setNewItemLoading(false);
         setOffset((offset) => offset + 9);
-        setCharEnded((charEnded) => ended);
+        setCharEnded(ended);
     }
 
     const refsOfChars = useRef([]);
