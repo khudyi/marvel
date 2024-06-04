@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useMarvelService } from '../../services/MarvelService';
 
+import { Link } from 'react-router-dom/dist';
 import { Spinner } from '../spinner/Spinner';
 import { ErrorMessage } from '../errorMessage/ErrorMessage';
 import { Skeleton } from '../skeleton/Skeleton';
@@ -83,7 +84,11 @@ const View = ({char}) => {
 
                         return (
                             <li className="char__comics-item" key={i}>
-                                {item.name}
+                                <Link 
+                                    to={`/comics/${item.resourceURI.match(/\d+$/)[0]}`}
+                                    target="_blank">
+                                        {item.name}
+                                </Link>
                             </li>
                         )
                     })
